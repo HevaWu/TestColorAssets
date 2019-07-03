@@ -10,7 +10,15 @@ import UIKit
 
 class FirstViewController: UIViewController {
     
-    @IBOutlet var firstLabel: UILabel!
+    @IBOutlet var firstLabel: UILabel! {
+        didSet {
+            // output:
+            // Optional(UIExtendedSRGBColorSpace 1 0 0 1) <- we rewrite the color
+            // Optional(kCGColorSpaceModelRGB 0 0 0 0.5 ) 38 <- it read the `named` color from xib file after `viewDidLoad`
+            firstLabel.textColor = .red
+        }
+    }
+    
     var observer: NSKeyValueObservation?
     
     override func viewDidLoad() {
@@ -24,7 +32,7 @@ class FirstViewController: UIViewController {
         // if we rewrite the color in the viewDidLoad
         // output:
         // Optional(UIExtendedSRGBColorSpace 1 0 0 1) <- we rewrite the color
-        // Optional(kCGColorSpaceModelRGB 0 0 0 0.5 ) 31 <- it read the `named` color from xib file after `viewDidLoad`
+        // Optional(kCGColorSpaceModelRGB 0 0 0 0.5 ) 38 <- it read the `named` color from xib file after `viewDidLoad`
 //        firstLabel.textColor = .red
         print(firstLabel.textColor)
         
@@ -39,9 +47,9 @@ class FirstViewController: UIViewController {
         
         // output:
         // Optional(UIExtendedSRGBColorSpace 0.776 0.349 0.282 0.5)  <- first read `Named Color` set at viewDidLoad
-        // Optional(kCGColorSpaceModelRGB 0 0 0 0.5 ) 33  <- iPhone XR device read the `display3` color
-        // Optional(UIExtendedSRGBColorSpace 1 0 0 1) 33  <- rewrite color successful
-        firstLabel.textColor = .red
+        // Optional(kCGColorSpaceModelRGB 0 0 0 0.5 ) 38  <- iPhone XR device read the `display3` color
+        // Optional(UIExtendedSRGBColorSpace 1 0 0 1) 38  <- rewrite color successful
+//        firstLabel.textColor = .red
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,8 +57,8 @@ class FirstViewController: UIViewController {
         
         // output:
         // Optional(UIExtendedSRGBColorSpace 0.776 0.349 0.282 0.5) <- first read `Named Color` set at viewDidLoad
-        // Optional(UIExtendedSRGBColorSpace 1 0 0 1) 33 <- rewrite color
-        // Optional(kCGColorSpaceModelRGB 0 0 0 0.5 ) 33 <- iPhone XR device read the `display3` color
+        // Optional(UIExtendedSRGBColorSpace 1 0 0 1) 38 <- rewrite color
+        // Optional(kCGColorSpaceModelRGB 0 0 0 0.5 ) 38 <- iPhone XR device read the `display3` color
 //        firstLabel.textColor = .red
     }
 
@@ -60,8 +68,8 @@ class FirstViewController: UIViewController {
         // if we rewrite the color in the viewDidAppear
         // output:
         // Optional(UIExtendedSRGBColorSpace 0.776 0.349 0.282 0.5)  <- first read `Named Color` set at viewDidLoad
-        // Optional(kCGColorSpaceModelRGB 0 0 0 0.5 ) 33  <- iPhone XR device read the `display3` color
-        // Optional(UIExtendedSRGBColorSpace 1 0 0 1) 33  <- rewrite color successful
+        // Optional(kCGColorSpaceModelRGB 0 0 0 0.5 ) 38  <- iPhone XR device read the `display3` color
+        // Optional(UIExtendedSRGBColorSpace 1 0 0 1) 38  <- rewrite color successful
 //        firstLabel.textColor = .red
     }
 }
